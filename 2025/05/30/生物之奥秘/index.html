@@ -384,6 +384,258 @@
             
             
 
+<div style="display:none" id="wxgate-config"
+     data-keep="2"
+     data-code="Overview"
+     data-path="2025/05/30/生物之奥秘/"></div>
+<style>
+  /* 遮蔽容器：限制高度，底部渐隐 */
+  .wxgate-wrap {
+    position: relative;
+    max-height: 460px;
+    overflow: hidden;
+  }
+  .wxgate-wrap.is-open {
+    max-height: none;
+    overflow: visible;
+  }
+  /* 底部的白色渐隐遮罩 */
+  .wxgate-fade {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 190px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,.86) 55%, #fff 100%);
+    pointer-events: none;
+  }
+  .wxgate-wrap.is-open .wxgate-fade { display: none; }
+
+  /* 引导卡片 */
+  .wxgate-card {
+    margin: 28px auto 8px;
+    padding: 26px 22px 22px;
+    max-width: 460px;
+    text-align: center;
+    border: 1px solid rgba(76,191,48,.28);
+    border-radius: 12px;
+    background: linear-gradient(180deg, #f7fdf5 0%, #ffffff 100%);
+    box-shadow: 0 2px 14px rgba(0,0,0,.05);
+  }
+  .wxgate-card .wxgate-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2e7d32;
+    margin-bottom: 6px;
+  }
+  .wxgate-card .wxgate-sub {
+    font-size: 14px;
+    color: #7a7a7a;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .wxgate-card .wxgate-qr {
+    width: 168px;
+    height: 168px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid #e6e6e6;
+    background: #fff;
+    padding: 6px;
+  }
+  .wxgate-card .wxgate-steps {
+    text-align: left;
+    display: inline-block;
+    margin: 16px auto 4px;
+    font-size: 14px;
+    color: #555;
+    line-height: 2;
+  }
+  .wxgate-card .wxgate-steps b { color: #2e7d32; }
+  .wxgate-card .wxgate-keyword {
+    display: inline-block;
+    padding: 1px 8px;
+    margin: 0 3px;
+    border-radius: 4px;
+    background: #eef7ea;
+    color: #2e7d32;
+    font-weight: 700;
+    font-family: monospace;
+  }
+  .wxgate-card .wxgate-unlock {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed #e0e0e0;
+    font-size: 13px;
+    color: #999;
+  }
+  .wxgate-card .wxgate-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 20px;
+    font-size: 14px;
+    color: #fff;
+    background: #4cbf30;
+    border: 0;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .wxgate-card .wxgate-btn:hover { opacity: .86; }
+  .wxgate-card .wxgate-unlocked-tip {
+    display: none;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #4cbf30;
+  }
+
+  /* 夜间模式适配 */
+  [data-theme="dark"] .wxgate-fade {
+    background: linear-gradient(to bottom, rgba(30,30,30,0) 0%, rgba(30,30,30,.86) 55%, #1e1e1e 100%);
+  }
+  [data-theme="dark"] .wxgate-card {
+    background: linear-gradient(180deg, #1f2a1d 0%, #1e1e1e 100%);
+    border-color: rgba(76,191,48,.3);
+  }
+  [data-theme="dark"] .wxgate-card .wxgate-sub,
+  [data-theme="dark"] .wxgate-card .wxgate-steps { color: #bbb; }
+  [data-theme="dark"] .wxgate-card .wxgate-unlock { color: #888; }
+</style>
+
+<div class="wxgate-wrap" id="wxgate-wrap">
+  <div class="wxgate-fade"></div>
+</div>
+
+<div class="wxgate-card" id="wxgate-card" data-aos="fade-up">
+  <div class="wxgate-title">
+    <i class="fab fa-weixin" aria-hidden="true"></i>&nbsp;关注公众号，阅读全文
+  </div>
+  <div class="wxgate-sub">
+    本文剩余内容需关注公众号后查看，感谢支持原创。
+  </div>
+
+  <img class="wxgate-qr" src="/medias/wechat-qrcode.png" alt="公众号二维码"
+       onerror="this.style.display='none';document.getElementById('wxgate-qr-missing').style.display='block';">
+  <div id="wxgate-qr-missing" style="display:none;color:#c62828;font-size:13px;line-height:1.8;padding:20px 0;">
+    二维码未找到：请把公众号二维码保存为<br>
+    <code>source/medias/wechat-qrcode.png</code>
+  </div>
+
+  <div class="wxgate-steps">
+    1. 微信扫描上方二维码，关注公众号<br>
+    2. 在公众号对话框回复
+       <span class="wxgate-keyword">阅读全文</span><br>
+    3. 收到验证口令后，填入下方即可解锁
+  </div>
+
+  <div class="wxgate-unlock">
+    <input type="text" id="wxgate-input" placeholder="在此粘贴验证口令"
+           style="width: 68%; padding: 7px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+    <button class="wxgate-btn" id="wxgate-check">解锁全文</button>
+    <div class="wxgate-unlocked-tip" id="wxgate-ok">
+      <i class="fas fa-check-circle"></i>&nbsp;解锁成功，正在展开全文…
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var cfg   = document.getElementById('wxgate-config');
+  var UNLOCK_CODE = (cfg && cfg.dataset.code) ? cfg.dataset.code.trim() : 'BIOINFO';
+  var KEEP  = cfg ? (parseInt(cfg.dataset.keep, 10) || 0) : 2;
+  var PAGE  = (cfg && cfg.dataset.path) ? cfg.dataset.path : location.pathname;
+
+  var wrap  = document.getElementById('wxgate-wrap');
+  var card  = document.getElementById('wxgate-card');
+  var input = document.getElementById('wxgate-input');
+  var btn   = document.getElementById('wxgate-check');
+  var okTip = document.getElementById('wxgate-ok');
+
+  if (!wrap) return;
+
+  var content = document.getElementById('articleContent');
+
+  if (content) {
+    var blocks = Array.prototype.slice.call(content.children);
+    var html   = content.innerHTML;
+    var marker = '<!--wechat_gate_break-->';
+    var idx    = html.indexOf(marker);
+
+    // 优先：显式分隔线
+    if (idx > -1) {
+      var head = html.slice(0, idx);
+      var tail = html.slice(idx + marker.length);
+      content.innerHTML = '';
+      var openPart = document.createElement('div');
+      openPart.className = 'wxgate-open-part';
+      openPart.innerHTML = head;
+      content.appendChild(openPart);
+
+      var hiddenPart = document.createElement('div');
+      hiddenPart.className = 'wxgate-hidden-part';
+      hiddenPart.innerHTML = tail;
+      wrap.appendChild(hiddenPart);
+
+    // 次选：按段落数保留开头若干段
+    } else if (blocks.length > 0 && KEEP >= 0) {
+      var openPart2 = document.createElement('div');
+      openPart2.className = 'wxgate-open-part';
+      var hiddenPart2 = document.createElement('div');
+      hiddenPart2.className = 'wxgate-hidden-part';
+
+      blocks.forEach(function (el, i) {
+        if (i < KEEP) { openPart2.appendChild(el); }
+        else { hiddenPart2.appendChild(el); }
+      });
+
+      content.innerHTML = '';
+      content.appendChild(openPart2);
+      wrap.appendChild(hiddenPart2);
+
+    // 兜底：整段搬进遮蔽容器
+    } else {
+      while (content.firstChild) { wrap.appendChild(content.firstChild); }
+      var ph = document.createElement('div');
+      ph.id = 'articleContent';
+      content.parentNode.insertBefore(ph, card);
+    }
+  }
+
+  function unlock() {
+    wrap.classList.add('is-open');
+    card.style.display = 'none';
+    var hidden = wrap.querySelector('.wxgate-hidden-part');
+    if (hidden) {
+      var open = wrap.querySelector('.wxgate-open-part');
+      if (open) { open.parentNode.insertBefore(hidden, open.nextSibling); }
+      else { wrap.parentNode.insertBefore(hidden, wrap); }
+    }
+    try { localStorage.setItem('wxgate_' + PAGE, '1'); } catch (e) {}
+  }
+
+  // 同一篇文章解锁过就直接放开（读者体验友好）
+  try {
+    if (localStorage.getItem('wxgate_' + PAGE) === '1') { unlock(); return; }
+  } catch (e) {}
+
+  btn && btn.addEventListener('click', function () {
+    var val = (input.value || '').trim();
+    if (!UNLOCK_CODE) { unlock(); return; }
+    if (val.toUpperCase() === UNLOCK_CODE.toUpperCase()) {
+      okTip.style.display = 'block';
+      setTimeout(unlock, 420);
+    } else {
+      input.style.borderColor = '#e53935';
+      input.value = '';
+      input.placeholder = '口令不正确，请在公众号回复关键词获取';
+      setTimeout(function () { input.style.borderColor = '#ddd'; }, 1600);
+    }
+  });
+
+  input && input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { btn.click(); }
+  });
+})();
+</script>
+
 
 
             <hr/>
